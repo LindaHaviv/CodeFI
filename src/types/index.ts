@@ -1,4 +1,4 @@
-export type ThemeName = 'matrix' | 'dracula' | 'nord' | 'monokai' | 'amber';
+export type ThemeName = 'matrix' | 'dracula' | 'nord' | 'monokai' | 'amber' | 'solarized' | 'github' | 'onedark';
 
 export interface Theme {
   name: ThemeName;
@@ -25,6 +25,9 @@ export interface TimerSettings {
   shortBreakDuration: number;
   longBreakDuration: number;
   sessionsBeforeLongBreak: number;
+  autoStartBreaks: boolean;
+  autoStartPomodoros: boolean;
+  soundEnabled: boolean;
 }
 
 export interface TimerState {

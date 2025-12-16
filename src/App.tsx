@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { AudioProvider } from './context/AudioContext';
 import { TimerProvider } from './context/TimerContext';
@@ -10,10 +10,21 @@ import { TimerSettings } from './components/Timer/TimerSettings';
 import { AudioPlayer } from './components/Audio/AudioPlayer';
 import { ThemeSelector } from './components/Settings/ThemeSelector';
 import { Particles } from './components/Effects/Particles';
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 function AppContent() {
   const { theme } = useTheme();
   const [showSettings, setShowSettings] = useState(false);
+
+  const toggleSettings = useCallback(() => {
+    setShowSettings(prev => !prev);
+  }, []);
+
+  // Enable keyboard shortcuts
+  useKeyboardShortcuts({
+    onToggleSettings: toggleSettings,
+    isSettingsOpen: showSettings,
+  });
 
   return (
     <AppLayout>

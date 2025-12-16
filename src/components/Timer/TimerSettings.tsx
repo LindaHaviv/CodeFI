@@ -19,6 +19,9 @@ export function TimerSettings({ isOpen, onClose }: TimerSettingsProps) {
     settings.longBreakDuration / 60
   );
   const [sessions, setSessions] = useState(settings.sessionsBeforeLongBreak);
+  const [autoStartBreaks, setAutoStartBreaks] = useState(settings.autoStartBreaks);
+  const [autoStartPomodoros, setAutoStartPomodoros] = useState(settings.autoStartPomodoros);
+  const [soundEnabled, setSoundEnabled] = useState(settings.soundEnabled);
 
   if (!isOpen) return null;
 
@@ -28,6 +31,9 @@ export function TimerSettings({ isOpen, onClose }: TimerSettingsProps) {
       shortBreakDuration: shortBreakMinutes * 60,
       longBreakDuration: longBreakMinutes * 60,
       sessionsBeforeLongBreak: sessions,
+      autoStartBreaks,
+      autoStartPomodoros,
+      soundEnabled,
     });
     onClose();
   };
@@ -148,10 +154,120 @@ export function TimerSettings({ isOpen, onClose }: TimerSettingsProps) {
               }}
             />
           </div>
+
+          {/* Divider */}
+          <div className="border-t my-2" style={{ borderColor: `${theme.text}15` }} />
+
+          {/* Auto-start breaks */}
+          <div className="flex items-center justify-between">
+            <label style={{ color: theme.text }} className="text-sm opacity-80">
+              Auto-start breaks
+            </label>
+            <button
+              onClick={() => setAutoStartBreaks(!autoStartBreaks)}
+              className="w-12 h-6 rounded-full transition-colors relative"
+              style={{
+                backgroundColor: autoStartBreaks ? theme.accent : `${theme.text}20`,
+              }}
+            >
+              <div
+                className="w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform"
+                style={{
+                  transform: autoStartBreaks ? 'translateX(26px)' : 'translateX(2px)',
+                }}
+              />
+            </button>
+          </div>
+
+          {/* Auto-start pomodoros */}
+          <div className="flex items-center justify-between">
+            <label style={{ color: theme.text }} className="text-sm opacity-80">
+              Auto-start focus sessions
+            </label>
+            <button
+              onClick={() => setAutoStartPomodoros(!autoStartPomodoros)}
+              className="w-12 h-6 rounded-full transition-colors relative"
+              style={{
+                backgroundColor: autoStartPomodoros ? theme.accent : `${theme.text}20`,
+              }}
+            >
+              <div
+                className="w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform"
+                style={{
+                  transform: autoStartPomodoros ? 'translateX(26px)' : 'translateX(2px)',
+                }}
+              />
+            </button>
+          </div>
+
+          {/* Sound enabled */}
+          <div className="flex items-center justify-between">
+            <label style={{ color: theme.text }} className="text-sm opacity-80">
+              Notification sound
+            </label>
+            <button
+              onClick={() => setSoundEnabled(!soundEnabled)}
+              className="w-12 h-6 rounded-full transition-colors relative"
+              style={{
+                backgroundColor: soundEnabled ? theme.accent : `${theme.text}20`,
+              }}
+            >
+              <div
+                className="w-5 h-5 rounded-full bg-white absolute top-0.5 transition-transform"
+                style={{
+                  transform: soundEnabled ? 'translateX(26px)' : 'translateX(2px)',
+                }}
+              />
+            </button>
+          </div>
+        </div>
+
+        {/* Keyboard Shortcuts */}
+        <div className="border-t mt-4 pt-4" style={{ borderColor: `${theme.text}15` }}>
+          <h3
+            className="text-xs font-medium mb-3 opacity-60 uppercase tracking-wide"
+            style={{ color: theme.text }}
+          >
+            Keyboard Shortcuts
+          </h3>
+          <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-xs" style={{ color: theme.dim }}>
+            <div className="flex justify-between">
+              <span>Space</span>
+              <span className="opacity-70">Play/Pause</span>
+            </div>
+            <div className="flex justify-between">
+              <span>S</span>
+              <span className="opacity-70">Skip</span>
+            </div>
+            <div className="flex justify-between">
+              <span>R</span>
+              <span className="opacity-70">Reset</span>
+            </div>
+            <div className="flex justify-between">
+              <span>M</span>
+              <span className="opacity-70">Mute</span>
+            </div>
+            <div className="flex justify-between">
+              <span>N</span>
+              <span className="opacity-70">Next Track</span>
+            </div>
+            <div className="flex justify-between">
+              <span>P</span>
+              <span className="opacity-70">Music Play</span>
+            </div>
+            <div className="flex justify-between">
+              <span>1-8</span>
+              <span className="opacity-70">Switch Theme</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Esc</span>
+              <span className="opacity-70">Close</span>
+            </div>
+          </div>
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3 mt-8">
+        <div className="flex gap-3 mt-6">
           <button
             onClick={onClose}
             className="flex-1 py-2 rounded-lg text-sm transition-colors"

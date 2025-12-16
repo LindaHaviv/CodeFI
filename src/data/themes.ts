@@ -46,6 +46,33 @@ export const themes: Record<ThemeName, Theme> = {
     glow: '#ffb000',
     dim: '#805800',
   },
+  solarized: {
+    name: 'solarized',
+    label: 'Solarized',
+    bg: '#002b36',
+    text: '#839496',
+    accent: '#268bd2',
+    glow: '#2aa198',
+    dim: '#586e75',
+  },
+  github: {
+    name: 'github',
+    label: 'GitHub Dark',
+    bg: '#0d1117',
+    text: '#c9d1d9',
+    accent: '#58a6ff',
+    glow: '#1f6feb',
+    dim: '#8b949e',
+  },
+  onedark: {
+    name: 'onedark',
+    label: 'One Dark',
+    bg: '#282c34',
+    text: '#abb2bf',
+    accent: '#61afef',
+    glow: '#c678dd',
+    dim: '#5c6370',
+  },
 };
 
 export const themeList = Object.values(themes);

@@ -1,4 +1,4 @@
-import { createContext, useContext, useReducer, useEffect, useCallback } from 'react';
+import { createContext, useContext, useReducer, useEffect, useCallback, useRef } from 'react';
 import type { ReactNode } from 'react';
 import type { TimerState, TimerSettings, SessionType } from '../types';
 
@@ -19,7 +19,24 @@ const defaultSettings: TimerSettings = {
   shortBreakDuration: 5 * 60,
   longBreakDuration: 15 * 60,
   sessionsBeforeLongBreak: 4,
+  autoStartBreaks: false,
+  autoStartPomodoros: false,
+  soundEnabled: true,
 };
+
+// Session type labels for tab title
+const sessionLabels: Record<SessionType, string> = {
+  work: 'Focus',
+  shortBreak: 'Break',
+  longBreak: 'Long Break',
+};
+
+// Format time for display
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
 
 function loadSettings(): TimerSettings {
   const stored = localStorage.getItem(SETTINGS_KEY);
@@ -98,9 +115,14 @@ function timerReducer(state: TimerState, action: TimerAction): TimerState {
 
       if (state.timeRemaining <= 1) {
         const next = getNextSession(state.sessionType, state.sessionsCompleted, state.settings);
+        const isBreak = next.sessionType !== 'work';
+        const shouldAutoStart = isBreak
+          ? state.settings.autoStartBreaks
+          : state.settings.autoStartPomodoros;
+
         return {
           ...state,
-          status: 'idle',
+          status: shouldAutoStart ? 'running' : 'idle',
           sessionType: next.sessionType,
           sessionsCompleted: next.sessionsCompleted,
           timeRemaining: getDuration(next.sessionType, state.settings),
@@ -132,6 +154,8 @@ function timerReducer(state: TimerState, action: TimerAction): TimerState {
 
 export function TimerProvider({ children }: { children: ReactNode }) {
   const settings = loadSettings();
+  const notificationSoundRef = useRef<HTMLAudioElement | null>(null);
+  const prevSessionRef = useRef<SessionType>('work');
 
   const [state, dispatch] = useReducer(timerReducer, {
     status: 'idle',
@@ -141,6 +165,15 @@ export function TimerProvider({ children }: { children: ReactNode }) {
     settings,
   });
 
+  // Initialize notification sound
+  useEffect(() => {
+    // Create a simple notification sound using Web Audio API
+    notificationSoundRef.current = new Audio();
+    // Use a data URI for a simple bell sound (base64 encoded)
+    notificationSoundRef.current.src = 'data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleQMYap/teleQYReIn+/ebmIJIEOu5/+2bhQZU5Pi/7NUFAJ3rvb/oFQTA4Kn7/+TPiEFi5zf/3E/KAlxrPn/kUoYCIGq9P+qYBELjJ7o/4lcGBCBp+j/llEYDm2f6f+UVSMXb5/m/4NMICN1n+H/ZzgdKHOg4P9aKBgvd6Lb/0kYDzhpptD/NwcFP2Orxv8o+PNJYLCz/xjw6k9WtKD/Durs';
+  }, []);
+
+  // Timer interval
   useEffect(() => {
     let interval: number | undefined;
 
@@ -155,12 +188,28 @@ export function TimerProvider({ children }: { children: ReactNode }) {
     };
   }, [state.status]);
 
+  // Update browser tab title
+  useEffect(() => {
+    const timeStr = formatTime(state.timeRemaining);
+    const sessionLabel = sessionLabels[state.sessionType];
+    const statusIcon = state.status === 'running' ? '▶' : state.status === 'paused' ? '⏸' : '○';
+    document.title = `${statusIcon} ${timeStr} | ${sessionLabel} - CodeFI`;
+  }, [state.timeRemaining, state.sessionType, state.status]);
+
   // Play notification sound when session changes
   useEffect(() => {
-    if (state.status === 'idle' && state.timeRemaining === getDuration(state.sessionType, state.settings)) {
-      // Session just completed - could play a sound here
+    if (prevSessionRef.current !== state.sessionType) {
+      // Session just changed - play notification sound
+      if (state.settings.soundEnabled && notificationSoundRef.current) {
+        notificationSoundRef.current.currentTime = 0;
+        notificationSoundRef.current.volume = 0.5;
+        notificationSoundRef.current.play().catch(() => {
+          // Ignore autoplay errors
+        });
+      }
+      prevSessionRef.current = state.sessionType;
     }
-  }, [state.sessionType, state.status, state.timeRemaining, state.settings]);
+  }, [state.sessionType, state.settings.soundEnabled]);
 
   const start = useCallback(() => dispatch({ type: 'START' }), []);
   const pause = useCallback(() => dispatch({ type: 'PAUSE' }), []);
