@@ -23,7 +23,7 @@ html, body, #root {
 }
 
 body {
-  font-family: 'JetBrains Mono', monospace;
+  font-family: 'SF Mono', 'Fira Code', 'Consolas', 'Monaco', monospace;
   background: var(--bg-dark);
   color: var(--text-green);
   overflow: hidden;
