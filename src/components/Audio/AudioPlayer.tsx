@@ -4,36 +4,38 @@ import { useTheme } from '../../context/ThemeContext';
 import { VinylDisc } from './VinylDisc';
 
 // Local audio tracks - served from public folder
+// Use import.meta.env.BASE_URL for GitHub Pages compatibility
+const BASE = import.meta.env.BASE_URL;
 const TRACKS = [
   {
     name: 'Shipping Lanes',
     artist: 'Chad Crouch',
-    src: '/audio/lofi1.mp3',
+    src: `${BASE}audio/lofi1.mp3`,
   },
   {
     name: 'Algorithms',
     artist: 'Chad Crouch',
-    src: '/audio/lofi2.mp3',
+    src: `${BASE}audio/lofi2.mp3`,
   },
   {
     name: 'Drifting',
     artist: 'Chad Crouch',
-    src: '/audio/lofi3.mp3',
+    src: `${BASE}audio/lofi3.mp3`,
   },
   {
     name: 'Ambient Dreams',
     artist: 'Jamendo',
-    src: '/audio/lofi4.mp3',
+    src: `${BASE}audio/lofi4.mp3`,
   },
   {
     name: 'Night Flow',
     artist: 'Jamendo',
-    src: '/audio/lofi5.mp3',
+    src: `${BASE}audio/lofi5.mp3`,
   },
   {
     name: 'Calm Waters',
     artist: 'Jamendo',
-    src: '/audio/lofi6.mp3',
+    src: `${BASE}audio/lofi6.mp3`,
   },
 ];
 
