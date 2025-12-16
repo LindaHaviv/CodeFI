@@ -1,0 +1,106 @@
+/* CRT Monitor Effect */
+.crt-container {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+/* Subtle screen curvature effect */
+.crt-container::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 70%,
+    rgba(0, 0, 0, 0.15) 100%
+  );
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Scanlines overlay */
+.scanlines {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.03) 0px,
+    rgba(0, 0, 0, 0.03) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* Glow effect container */
+.terminal-glow {
+  position: relative;
+  filter: blur(0);
+}
+
+/* Blinking cursor */
+@keyframes cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+.cursor {
+  display: inline-block;
+  width: 8px;
+  height: 1.2em;
+  margin-left: 2px;
+  animation: cursor-blink 1s step-end infinite;
+}
+
+/* Code line styling */
+.code-line {
+  white-space: pre;
+  line-height: 1.6;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* Line number styling */
+.line-number {
+  display: inline-block;
+  width: 3em;
+  text-align: right;
+  margin-right: 1.5em;
+  user-select: none;
+  opacity: 0.4;
+}
+
+/* Ambient particle canvas */
+.particles-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+}
+
+/* Smooth scroll animation */
+.terminal-content {
+  transition: transform 0.1s ease-out;
+}
+
+/* Flicker effect - very subtle */
+@keyframes subtle-flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
+}
+
+.crt-flicker {
+  animation: subtle-flicker 0.15s infinite;
+}
