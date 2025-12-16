@@ -6,11 +6,11 @@ export function TimerControls() {
   const { theme } = useTheme();
 
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-3 sm:gap-4 items-center">
       {/* Reset button */}
       <button
         onClick={reset}
-        className="p-4 rounded-full transition-all duration-200"
+        className="p-3 sm:p-4 rounded-full transition-all duration-200"
         style={{
           backgroundColor: `${theme.text}08`,
           color: theme.text,
@@ -27,7 +27,7 @@ export function TimerControls() {
         }}
         title="Reset"
       >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -41,7 +41,7 @@ export function TimerControls() {
       {status === 'running' ? (
         <button
           onClick={pause}
-          className="p-6 rounded-full transition-all duration-200"
+          className="p-4 sm:p-6 rounded-full transition-all duration-200"
           style={{
             backgroundColor: theme.accent,
             color: theme.bg,
@@ -57,14 +57,14 @@ export function TimerControls() {
           }}
           title="Pause"
         >
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
           </svg>
         </button>
       ) : (
         <button
           onClick={start}
-          className="p-6 rounded-full transition-all duration-200"
+          className="p-4 sm:p-6 rounded-full transition-all duration-200"
           style={{
             backgroundColor: theme.accent,
             color: theme.bg,
@@ -80,7 +80,7 @@ export function TimerControls() {
           }}
           title="Start"
         >
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+          <svg className="w-6 h-6 sm:w-8 sm:h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M8 5v14l11-7z" />
           </svg>
         </button>
@@ -89,7 +89,7 @@ export function TimerControls() {
       {/* Skip button */}
       <button
         onClick={skip}
-        className="p-4 rounded-full transition-all duration-200"
+        className="p-3 sm:p-4 rounded-full transition-all duration-200"
         style={{
           backgroundColor: `${theme.text}08`,
           color: theme.text,
@@ -106,7 +106,7 @@ export function TimerControls() {
         }}
         title="Skip"
       >
-        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+        <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="currentColor" viewBox="0 0 24 24">
           <path d="M5 5v14l11-7L5 5zm11 0v14h2V5h-2z" />
         </svg>
       </button>

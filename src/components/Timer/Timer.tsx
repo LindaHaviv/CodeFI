@@ -28,7 +28,7 @@ export function Timer() {
     >
       {/* Session type indicator */}
       <div
-        className="text-lg uppercase tracking-[0.3em] font-medium"
+        className="text-sm sm:text-base md:text-lg uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium"
         style={{ color: theme.accent }}
       >
         {sessionLabels[sessionType]}
@@ -36,7 +36,7 @@ export function Timer() {
 
       {/* Timer display - HERO SIZE */}
       <div
-        className="text-[10rem] font-extralight tracking-tight leading-none"
+        className="text-5xl sm:text-7xl md:text-[10rem] font-extralight tracking-tight leading-none"
         style={{
           textShadow: `0 0 ${40 + audioData.bass * 40}px ${theme.glow}${Math.round(glowIntensity * 50).toString(16).padStart(2, '0')}, 0 0 ${80 + audioData.bass * 60}px ${theme.glow}${Math.round(glowIntensity * 25).toString(16).padStart(2, '0')}`,
           fontFamily: "'JetBrains Mono', monospace",
@@ -46,11 +46,11 @@ export function Timer() {
       </div>
 
       {/* Session progress dots */}
-      <div className="flex gap-3 mt-4">
+      <div className="flex gap-2 sm:gap-3 mt-2 sm:mt-4">
         {Array.from({ length: settings.sessionsBeforeLongBreak }).map((_, i) => (
           <div
             key={i}
-            className="w-3 h-3 rounded-full transition-all duration-300"
+            className="w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300"
             style={{
               backgroundColor: i < sessionsCompleted ? theme.accent : `${theme.text}25`,
               boxShadow: i < sessionsCompleted ? `0 0 12px ${theme.glow}` : 'none',
