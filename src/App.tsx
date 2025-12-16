@@ -30,7 +30,7 @@ function AppContent() {
     <AppLayout>
       {/* Terminal as full background - more visible */}
       <div
-        className="absolute inset-0 z-0 opacity-70"
+        className="absolute inset-0 z-0 opacity-70 pointer-events-none"
         style={{
           maskImage: 'radial-gradient(ellipse at center, transparent 10%, black 60%)',
           WebkitMaskImage: 'radial-gradient(ellipse at center, transparent 10%, black 60%)',
@@ -53,7 +53,10 @@ function AppContent() {
       {/* Main content */}
       <div className="relative z-10 w-full h-full flex flex-col">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-4 py-4 sm:px-6 md:px-10 md:py-6 flex-shrink-0">
+        <header
+          className="flex items-center justify-between flex-shrink-0"
+          style={{ padding: '2rem 2.5rem' }}
+        >
           <h1
             className="text-2xl font-semibold tracking-tight"
             style={{ color: theme.text }}
@@ -65,10 +68,10 @@ function AppContent() {
             <ThemeSelector />
             <button
               onClick={() => setShowSettings(true)}
-              className="p-2 rounded-lg transition-colors"
+              className="p-2 rounded-lg transition-colors hover:opacity-80"
               style={{
-                color: theme.dim,
-                backgroundColor: `${theme.text}05`,
+                color: theme.accent,
+                backgroundColor: `${theme.accent}15`,
               }}
               title="Timer Settings"
             >
@@ -113,11 +116,12 @@ function AppContent() {
 
           {/* Right side - Audio player with vinyl */}
           <div
-            className="w-full max-w-[280px] md:w-[260px] flex-shrink-0 py-4 md:py-6 px-4 rounded-2xl"
+            className="w-full max-w-[280px] md:w-[260px] flex-shrink-0 rounded-2xl"
             style={{
               backgroundColor: `${theme.bg}cc`,
               border: `1px solid ${theme.text}10`,
               backdropFilter: 'blur(10px)',
+              padding: '1.5rem 1rem',
             }}
           >
             <AudioPlayer />

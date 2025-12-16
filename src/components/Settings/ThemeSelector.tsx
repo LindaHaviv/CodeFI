@@ -8,8 +8,8 @@ export function ThemeSelector() {
   return (
     <div className="flex items-center gap-2">
       <span
-        className="text-xs uppercase tracking-wider opacity-50"
-        style={{ color: theme.text }}
+        className="text-xs uppercase tracking-wider"
+        style={{ color: theme.dim }}
       >
         Theme
       </span>
@@ -20,10 +20,10 @@ export function ThemeSelector() {
             onClick={() => setTheme(t.name as ThemeName)}
             className="w-6 h-6 rounded-full transition-all duration-200 relative"
             style={{
-              backgroundColor: t.text,
+              backgroundColor: t.accent,
               boxShadow:
                 themeName === t.name
-                  ? `0 0 0 2px ${theme.bg}, 0 0 0 4px ${t.text}`
+                  ? `0 0 0 2px ${theme.bg}, 0 0 0 4px ${t.accent}`
                   : 'none',
               transform: themeName === t.name ? 'scale(1.1)' : 'scale(1)',
             }}
@@ -31,7 +31,7 @@ export function ThemeSelector() {
           >
             {themeName === t.name && (
               <span
-                className="absolute inset-0 flex items-center justify-center text-xs"
+                className="absolute inset-0 flex items-center justify-center text-xs font-bold"
                 style={{ color: t.bg }}
               >
                 ✓
