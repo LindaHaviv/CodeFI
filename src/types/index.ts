@@ -43,3 +43,11 @@ export interface CodeSnippet {
   title: string;
   lines: string[];
 }
+
+export interface BeatData {
+  isBeat: boolean;
+  bpm: number;
+  confidence: number;
+  waveform: number[];
+  beatIntensity: number;
+}

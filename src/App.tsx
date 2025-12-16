@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { AudioProvider } from './context/AudioContext';
 import { TimerProvider } from './context/TimerContext';
+import { BeatProvider } from './context/BeatContext';
 import { AppLayout } from './components/Layout/AppLayout';
 import { Terminal } from './components/Terminal/Terminal';
 import { Timer } from './components/Timer/Timer';
@@ -10,6 +11,7 @@ import { TimerSettings } from './components/Timer/TimerSettings';
 import { AudioPlayer } from './components/Audio/AudioPlayer';
 import { ThemeSelector } from './components/Settings/ThemeSelector';
 import { Particles } from './components/Effects/Particles';
+import { BeatVisualizer } from './components/Visualizer/BeatVisualizer';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 
 function AppContent() {
@@ -131,6 +133,9 @@ function AppContent() {
 
       {/* Settings modal */}
       <TimerSettings isOpen={showSettings} onClose={() => setShowSettings(false)} />
+
+      {/* Beat visualizer (toggle with V) */}
+      <BeatVisualizer />
     </AppLayout>
   );
 }
@@ -139,9 +144,11 @@ function App() {
   return (
     <ThemeProvider>
       <AudioProvider>
-        <TimerProvider>
-          <AppContent />
-        </TimerProvider>
+        <BeatProvider>
+          <TimerProvider>
+            <AppContent />
+          </TimerProvider>
+        </BeatProvider>
       </AudioProvider>
     </ThemeProvider>
   );

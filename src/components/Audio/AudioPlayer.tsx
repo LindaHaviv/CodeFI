@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { useAudio } from '../../context/AudioContext';
 import { useTheme } from '../../context/ThemeContext';
 import { VinylDisc } from './VinylDisc';
@@ -6,46 +6,58 @@ import { VinylDisc } from './VinylDisc';
 // Local audio tracks - served from public folder
 // Use import.meta.env.BASE_URL for GitHub Pages compatibility
 const BASE = import.meta.env.BASE_URL;
-const TRACKS = [
+export const TRACKS = [
   {
     name: 'Shipping Lanes',
     artist: 'Chad Crouch',
     src: `${BASE}audio/lofi1.mp3`,
+    key: 'Am',
   },
   {
     name: 'Algorithms',
     artist: 'Chad Crouch',
     src: `${BASE}audio/lofi2.mp3`,
+    key: 'Dm',
   },
   {
     name: 'Drifting',
     artist: 'Chad Crouch',
     src: `${BASE}audio/lofi3.mp3`,
+    key: 'C',
   },
   {
     name: 'Ambient Dreams',
     artist: 'Jamendo',
     src: `${BASE}audio/lofi4.mp3`,
+    key: 'Em',
   },
   {
     name: 'Night Flow',
     artist: 'Jamendo',
     src: `${BASE}audio/lofi5.mp3`,
+    key: 'Gm',
   },
   {
     name: 'Calm Waters',
     artist: 'Jamendo',
     src: `${BASE}audio/lofi6.mp3`,
+    key: 'F',
   },
 ];
 
 export function AudioPlayer() {
-  const { volume, setVolume, play, pause, isPlaying } = useAudio();
+  const { volume, setVolume, play, pause, isPlaying, currentTrack: currentTrackIndex, setTrack, initAudio } = useAudio();
   const { theme } = useTheme();
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
 
   const currentTrack = TRACKS[currentTrackIndex];
+
+  // Initialize audio context when audio element is ready
+  useEffect(() => {
+    if (audioRef.current) {
+      initAudio(audioRef.current);
+    }
+  }, [initAudio]);
 
   // Update volume when it changes
   useEffect(() => {
@@ -57,6 +69,9 @@ export function AudioPlayer() {
   const handlePlayPause = async () => {
     const audio = audioRef.current;
     if (!audio) return;
+
+    // Initialize audio context on first play (requires user interaction)
+    initAudio(audio);
 
     if (isPlaying) {
       audio.pause();
@@ -81,8 +96,8 @@ export function AudioPlayer() {
     audio.pause();
     pause();
 
-    // Change track
-    setCurrentTrackIndex(newIndex);
+    // Change track via context
+    setTrack(newIndex);
     audio.src = TRACKS[newIndex].src;
 
     // Resume if was playing

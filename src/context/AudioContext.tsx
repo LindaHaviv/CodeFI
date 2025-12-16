@@ -42,6 +42,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
     high: 0,
     average: 0,
   });
+  const [analyserNode, setAnalyserNode] = useState<AnalyserNode | null>(null);
 
   const audioContextRef = useRef<globalThis.AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
@@ -95,15 +96,10 @@ export function AudioProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const initAudio = useCallback((audioElement: HTMLAudioElement) => {
-    // Skip if already initialized with the same element
-    if (audioElementRef.current === audioElement && sourceRef.current) {
-      return;
-    }
-
     audioElementRef.current = audioElement;
     audioElement.volume = volume;
 
-    // First time initialization - create audio context
+    // First time initialization - create audio context (requires user interaction)
     if (!audioContextRef.current) {
       try {
         audioContextRef.current = new window.AudioContext();
@@ -118,7 +114,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     // Connect the audio element to the analyser
     // Note: createMediaElementSource can only be called once per element
-    if (!sourceRef.current && analyserRef.current) {
+    if (!sourceRef.current && analyserRef.current && audioContextRef.current) {
       try {
         sourceRef.current = audioContextRef.current.createMediaElementSource(audioElement);
         sourceRef.current.connect(analyserRef.current);
@@ -126,6 +122,11 @@ export function AudioProvider({ children }: { children: ReactNode }) {
       } catch (err) {
         console.warn('Could not connect audio source:', err);
       }
+    }
+
+    // Always update state so consumers get the analyser
+    if (analyserRef.current) {
+      setAnalyserNode(analyserRef.current);
     }
   }, [volume]);
 
@@ -177,7 +178,7 @@ export function AudioProvider({ children }: { children: ReactNode }) {
         volume,
         currentTrack,
         audioData,
-        analyserNode: analyserRef.current,
+        analyserNode,
         play,
         pause,
         toggle,

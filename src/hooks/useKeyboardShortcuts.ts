@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTimer } from '../context/TimerContext';
 import { useAudio } from '../context/AudioContext';
 import { useTheme } from '../context/ThemeContext';
+import { useBeat } from '../context/BeatContext';
 import { themeList } from '../data/themes';
 
 interface UseKeyboardShortcutsOptions {
@@ -13,6 +14,7 @@ export function useKeyboardShortcuts({ onToggleSettings, isSettingsOpen }: UseKe
   const { status, start, pause, reset, skip } = useTimer();
   const { toggle: toggleMusic, nextTrack, volume, setVolume } = useAudio();
   const { setTheme } = useTheme();
+  const { toggleVisualizer } = useBeat();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -77,7 +79,13 @@ export function useKeyboardShortcuts({ onToggleSettings, isSettingsOpen }: UseKe
           toggleMusic();
           break;
 
-        // 1-5 - switch themes
+        // V - toggle beat visualizer
+        case 'v':
+          e.preventDefault();
+          toggleVisualizer();
+          break;
+
+        // 1-8 - switch themes
         case '1':
         case '2':
         case '3':
@@ -103,5 +111,5 @@ export function useKeyboardShortcuts({ onToggleSettings, isSettingsOpen }: UseKe
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [status, start, pause, reset, skip, toggleMusic, nextTrack, volume, setVolume, setTheme, isSettingsOpen, onToggleSettings]);
+  }, [status, start, pause, reset, skip, toggleMusic, nextTrack, volume, setVolume, setTheme, toggleVisualizer, isSettingsOpen, onToggleSettings]);
 }

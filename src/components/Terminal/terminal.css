@@ -104,3 +104,26 @@
 .crt-flicker {
   animation: subtle-flicker 0.15s infinite;
 }
+
+/* Beat pulse effect - subtle border glow on beat */
+@keyframes beat-border-pulse {
+  0% {
+    box-shadow: inset 0 0 0 1px currentColor;
+  }
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+  }
+}
+
+.beat-pulse {
+  animation: beat-border-pulse 0.15s ease-out;
+}
+
+/* Beat-synced cursor - uses CSS custom property for dynamic timing */
+:root {
+  --beat-interval: 500ms;
+}
+
+.cursor-beat-sync {
+  animation: cursor-blink var(--beat-interval) step-end infinite;
+}
