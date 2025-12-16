@@ -1,0 +1,70 @@
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.control-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--terminal-border);
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.control-btn:hover {
+  border-color: var(--text-green-dim);
+  color: var(--text-green);
+}
+
+.control-btn.secondary {
+  width: 44px;
+  height: 44px;
+}
+
+.control-btn.primary {
+  width: 64px;
+  height: 64px;
+  background: rgba(74, 222, 128, 0.1);
+  border-color: var(--accent-color, var(--text-green));
+  color: var(--accent-color, var(--text-green));
+}
+
+.control-btn.primary:hover {
+  background: var(--accent-color, var(--text-green));
+  color: var(--bg-dark);
+  transform: scale(1.05);
+}
+
+.control-btn.primary:active {
+  transform: scale(0.98);
+}
+
+/* Keyboard hint */
+.controls::after {
+  content: 'space to toggle';
+  position: absolute;
+  bottom: -24px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: var(--text-muted);
+  opacity: 0.5;
+}
+
+@media (max-width: 600px) {
+  .control-btn.secondary {
+    width: 40px;
+    height: 40px;
+  }
+
+  .control-btn.primary {
+    width: 56px;
+    height: 56px;
+  }
+}

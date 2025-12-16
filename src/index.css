@@ -1,0 +1,74 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --bg-dark: #0a0a0f;
+  --bg-terminal: #0d1117;
+  --terminal-border: #1e2a3a;
+  --text-green: #4ade80;
+  --text-green-dim: rgba(74, 222, 128, 0.6);
+  --text-cyan: #22d3ee;
+  --text-amber: #fbbf24;
+  --text-muted: #6b7280;
+  --glow-green: rgba(74, 222, 128, 0.15);
+  --scanline-opacity: 0.03;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background: var(--bg-dark);
+  color: var(--text-green);
+  overflow: hidden;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+}
+
+/* Subtle vignette effect */
+#root::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.4) 100%);
+  pointer-events: none;
+  z-index: 100;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--text-green);
+  color: var(--bg-dark);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-terminal);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--terminal-border);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-green-dim);
+}
