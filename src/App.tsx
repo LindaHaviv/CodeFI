@@ -53,7 +53,7 @@ function AppContent() {
       {/* Main content */}
       <div className="relative z-10 w-full h-full flex flex-col">
         {/* Top bar */}
-        <header className="flex items-center justify-between px-10 py-6 flex-shrink-0">
+        <header className="flex items-center justify-between px-4 py-4 sm:px-6 md:px-10 md:py-6 flex-shrink-0">
           <h1
             className="text-2xl font-semibold tracking-tight"
             style={{ color: theme.text }}
@@ -96,15 +96,15 @@ function AppContent() {
         </header>
 
         {/* Main content area */}
-        <div className="flex-1 flex items-center justify-center px-6 pb-6 gap-8 min-h-0">
+        <div className="flex-1 flex flex-col md:flex-row items-center justify-center px-4 sm:px-6 pb-4 sm:pb-6 gap-6 md:gap-8 min-h-0 overflow-y-auto">
           {/* Center - Timer hero */}
-          <div className="flex flex-col items-center justify-center gap-6">
+          <div className="flex flex-col items-center justify-center gap-4 md:gap-6">
             <Timer />
             <TimerControls />
 
-            {/* Motivational text */}
+            {/* Motivational text - hidden on mobile to save space */}
             <p
-              className="text-sm text-center opacity-30 max-w-[280px]"
+              className="hidden sm:block text-sm text-center opacity-30 max-w-[280px]"
               style={{ color: theme.text }}
             >
               Stay in the zone. Write great code.
@@ -113,7 +113,7 @@ function AppContent() {
 
           {/* Right side - Audio player with vinyl */}
           <div
-            className="w-[260px] flex-shrink-0 py-6 px-4 rounded-2xl"
+            className="w-full max-w-[280px] md:w-[260px] flex-shrink-0 py-4 md:py-6 px-4 rounded-2xl"
             style={{
               backgroundColor: `${theme.bg}cc`,
               border: `1px solid ${theme.text}10`,
